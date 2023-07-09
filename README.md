@@ -33,10 +33,10 @@ WHERE `length` > (SELECT AVG(`length`) FROM film)
 ### Получите информацию, за какой месяц была получена наибольшая сумма платежей, и добавьте информацию по количеству аренд за этот месяц.
 
 ```java
-SELECT MONTH(payment_date), SUM(amount) as amount_sum, COUNT(1) as rent 
+SELECT DATE_FORMAT(payment_date, '%Y %M') as y_m, SUM(amount) as amount_sum, COUNT(1) as rent 
 from payment
-group by MONTH(payment_date)
-HAVING amount_sum = (SELECT MAX(sum_table.amount2) from (Select SUM(amount) as amount2 from payment group by MONTH(payment_date)) sum_table)
+group by y_m
+HAVING amount_sum = (SELECT MAX(sum_table.amount2) from (Select SUM(amount) as amount2 from payment group by DATE_FORMAT(payment_date, '%Y %M')) sum_table)
 ```
 
 ![alt text](https://github.com/rus42/SQL.Part2/blob/main/Task_3.png)
